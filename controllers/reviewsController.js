@@ -11,13 +11,13 @@ const getAllReviews = async (req, res) => {
 
 const addReview = async (req, res) => {
   try {
-    const { userId, title, artist, album, rating, message } = req.body;
+    const { userId, title, artist, rating, message } = req.body;
     
     if (!userId || !title || !artist || !rating) {
       return res.status(400).json({ error: 'UserId, Title, Artist, and Rating are required.' });
     }
 
-    const data = { title, artist, album, rating, message };
+    const data = { title, artist, rating, message };
     const newReview = await ReviewService.addReview(userId, data);
 
     res.status(201).json({ message: 'Review added successfully', data: newReview });

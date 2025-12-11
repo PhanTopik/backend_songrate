@@ -8,8 +8,6 @@ const Comment = sequelize.define('Comment', {
         autoIncrement: true,
         allowNull: false
     },
-    
-    // Simpan siapa yang me-review
     user_id: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -30,14 +28,11 @@ const Comment = sequelize.define('Comment', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    album: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
+    // --- BAGIAN ALBUM DIHAPUS ---
     rating: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        validate: { min: 1, max: 5 } // Validasi rating 1-5
+        validate: { min: 1, max: 5 }
     },
     message: {
         type: DataTypes.TEXT,
