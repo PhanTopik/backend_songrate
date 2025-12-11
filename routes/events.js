@@ -7,6 +7,8 @@ const {
   addComment
 } = require('../controllers/eventsController');
 
+const express = require('express');
+
 const router = express.Router();
 
 router.get('/', getAllEvents);

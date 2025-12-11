@@ -1,30 +1,24 @@
 const { Sequelize } = require('sequelize');
-require('dotenv').config();
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: 'postgres',
-    logging: false
-  }
-);
+// Setup koneksi SQLite (File database akan muncul sebagai 'database.sqlite')
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: './database.sqlite', // Lokasi file DB
+  logging: false // Set true jika ingin melihat query SQL di terminal
+});
 
 const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    console.log('PostgreSQL Connection has been established successfully.');
+    console.log('✅ SQLite Database Connected...');
     
+    // Sinkronisasi Model ke Database (Membuat tabel jika belum ada)
     await sequelize.sync(); 
-    console.log('All models were synchronized successfully.');
-
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    console.log('✅ Models Synced...');
+  } catch (err) {
+    console.error('❌ Database Connection Error:', err.message);
     process.exit(1);
   }
 };
 
-module.exports = { connectDB, sequelize };
+module.exports = { sequelize, connectDB };
