@@ -1,5 +1,3 @@
-// models/comment.js
-
 module.exports = (sequelize, DataTypes) => {
     const Comment = sequelize.define('Comment', {
         id: {
@@ -8,9 +6,9 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             allowNull: false
         },
-        event_id: { // Foreign Key baru untuk menghubungkan ke Event
+        coment_id: { // Foreign Key baru untuk menghubungkan ke Event
             type: DataTypes.INTEGER,
-            allowNull: true // Bisa disetel ke false jika setiap comment HARUS punya event
+            allowNull: true
         },
         title: {
             type: DataTypes.TEXT,

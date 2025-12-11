@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
-const Event = require('../models/event');
+const Event = require('../models/coment');
+const User = require('../models/user'); // <--- TAMBAHAN 1: Import Model User
 
 const getAllEvents = async () => {
   try {
@@ -19,7 +20,6 @@ const getEventById = async (id) => {
 
 const createEvent = async (data) => {
   try {
-    // Generate UUID jika database tidak auto-increment atau untuk memastikan ID unik
     const newEventData = {
       ...data,
       id: data.id || uuidv4() 
@@ -56,21 +56,31 @@ const deleteEvent = async (id) => {
 
 const addCommentToEvent = async (eventId, userId, commentText) => {
   try {
+    // 1. Cek apakah Event yang dikomentari ada
     const event = await Event.findByPk(eventId);
-
     if (!event) {
       return null;
     }
 
+    // 2. Cek apakah User ada di Database (Integrasi dengan Tabel Akun)
+    const user = await User.findByPk(userId);
+    if (!user) {
+        throw new Error("User ID not found in database. Please login first.");
+    }
+
+    // 3. Buat Komentar (Sekarang menyertakan Username asli dari DB)
     const newComment = {
       id: uuidv4(),
-      userId,
+      userId: user.id,        // ID dari database
+      username: user.username, // <--- FITUR BARU: Simpan nama user agar muncul di Frontend
       commentText,
       timestamp: new Date()
     };
     
-    // Pastikan comments adalah array (terutama untuk SQLite/JSON field)
+    // Logika penanganan array JSON (Sequelize/SQLite)
     let currentComments = event.comments;
+    
+    // Parsing aman jika formatnya string (terkadang terjadi di SQLite versi lama)
     if (typeof currentComments === 'string') {
         try {
             currentComments = JSON.parse(currentComments);
@@ -78,20 +88,23 @@ const addCommentToEvent = async (eventId, userId, commentText) => {
             currentComments = [];
         }
     }
+    
+    // Pastikan array
     if (!Array.isArray(currentComments)) {
       currentComments = [];
     }
 
+    // Masukkan komentar baru
     currentComments.push(newComment);
     
-    // Update properti dan simpan
-    event.comments = currentComments;
-    
-    // Gunakan 'update' untuk memicu setter/getter jika perlu, atau save()
-    // Di sini kita update field comments secara eksplisit agar Sequelize mendeteksi perubahan pada kolom JSON
-    await Event.update({ comments: currentComments }, { where: { id: eventId } });
+    // Update ke database
+    // Kita gunakan method update secara eksplisit untuk memaksa perubahan pada kolom JSON
+    await Event.update(
+        { comments: currentComments }, 
+        { where: { id: eventId } }
+    );
 
-    // Refresh instance untuk mendapatkan data terbaru
+    // Refresh data event untuk dikembalikan ke frontend
     return await event.reload();
 
   } catch (error) {

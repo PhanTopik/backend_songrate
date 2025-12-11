@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db'); // Pastikan path ini sesuai dengan config DB Anda
+const sequelize = require('../config/db');
 
 const User = sequelize.define('User', {
   id: {
@@ -22,9 +22,16 @@ const User = sequelize.define('User', {
   password: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  created_at: {
+    type: DataTypes.DATEONLY,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+    field: 'created_at'
   }
 }, {
-  timestamps: true
+  timestamps: false,
+  tableName: 'Users'
 });
 
 module.exports = User;
