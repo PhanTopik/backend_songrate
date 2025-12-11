@@ -1,38 +1,30 @@
-const Comment = require('../models/coment');
-const User = require('../models/user');
+const { Comment } = require('../models/comment'); 
+const { User } = require('../models/user');
 
 const getAllReviews = async () => {
-  try {
-    return await Comment.findAll({
-        order: [['created_at', 'DESC']]
-    });
-  } catch (error) {
-    throw error;
-  }
+  return await Comment.findAll({
+    include: [
+      {
+        model: User,
+        attributes: ['username']
+      }
+    ],
+    order: [['createdAt', 'DESC']]
+  });
 };
 
-const addReview = async (userId, reviewData) => {
-  try {
-    const user = await User.findByPk(userId);
-    if (!user) {
-        throw new Error("User not found. Please login.");
-    }
+const addReview = async (userId, data) => {
+  const { title, artist, rating, message } = data;
+  
+  const newReview = await Comment.create({
+    userId: userId,
+    title,
+    artist,
+    rating,
+    message
+  });
 
-    const newReview = await Comment.create({
-        user_id: user.id,
-        username: user.username,
-        title: reviewData.title,
-        artist: reviewData.artist,
-        rating: reviewData.rating,
-        message: reviewData.message
-    });
-
-    return newReview;
-
-  } catch (error) {
-    console.error('Error adding review:', error);
-    throw error;
-  }
+  return newReview;
 };
 
 module.exports = {

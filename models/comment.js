@@ -28,7 +28,6 @@ const Comment = sequelize.define('Comment', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    // --- BAGIAN ALBUM DIHAPUS ---
     rating: {
         type: DataTypes.INTEGER,
         allowNull: false,
