@@ -11,7 +11,7 @@ if (fs.existsSync(envPath)) {
 }
 
 const config = {
-  port: Number(process.env.PORT) || 5000,
+  port: Number(process.env.PORT) || 3000,
   jwtSecret: process.env.JWT_SECRET || 'dev-secret-change-me',
   tokenExpiresIn: process.env.JWT_EXPIRES_IN || '1h',
   clientOrigin: process.env.CLIENT_URL,
