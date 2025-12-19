@@ -4,7 +4,7 @@ const cors = require("cors");
 // Routes
 const reviewRoutes = require("./routes/reviews");
 const authRoutes = require("./routes/auth");
-const adminRoutes = require("./routes/admin");
+const adminRoutes = require("./routes/adminRoutes");
 
 const app = express();
 
