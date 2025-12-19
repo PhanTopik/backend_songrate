@@ -1,17 +1,18 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
 
-// Model User
 const User = sequelize.define('User', {
   id: {
-    type: DataTypes.STRING,
-    primaryKey: true,
-    allowNull: false
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true
   },
+
   username: {
     type: DataTypes.STRING,
     allowNull: false
   },
+
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -20,19 +21,26 @@ const User = sequelize.define('User', {
       isEmail: true
     }
   },
+
   password: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  created_at: {
-    type: DataTypes.DATEONLY,  // tipe DATE
+
+  role: {
+    type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: DataTypes.NOW,
-    field: 'created_at'
+    defaultValue: 'user'
+  },
+
+  created_at: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
   }
+
 }, {
   timestamps: false,
-  tableName: 'Users'  // pastikan ini sesuai dengan nama tabel di PostgreSQL
+  tableName: 'Users'
 });
 
 module.exports = User;
