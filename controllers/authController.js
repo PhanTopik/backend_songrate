@@ -26,9 +26,13 @@ const signup = async (req, res) => {
       username,
       email,
       password: hashedPassword
+      // role otomatis "user" dari model
     });
 
-    res.status(201).json({ message: 'User created successfully', userId: newUser.id });
+    res.status(201).json({ 
+      message: 'User created successfully', 
+      userId: newUser.id 
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error during signup' });
@@ -51,17 +55,27 @@ const login = async (req, res) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // Buat Token
+    // Buat Token (DITAMBAH ROLE)
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { 
+        id: user.id, 
+        email: user.email,
+        role: user.role
+      },
       JWT_SECRET,
       { expiresIn: '1h' }
     );
 
+    // Response (DITAMBAH ROLE)
     res.json({ 
       message: 'Login successful', 
       token, 
-      user: { id: user.id, username: user.username, email: user.email } 
+      user: { 
+        id: user.id, 
+        username: user.username, 
+        email: user.email,
+        role: user.role
+      } 
     });
   } catch (error) {
     console.error(error);
