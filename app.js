@@ -1,14 +1,15 @@
 const express = require("express");
 const cors = require("cors");
+const { connectDB } = require("./config/db");
 
-// Routes
 const reviewRoutes = require("./routes/reviews");
 const authRoutes = require("./routes/auth");
-const adminRoutes = require("./routes/adminRoutes");
+const adminRoutes = require("./routes/adminRoutes"); // 🔥 INI YANG HILANG
 
 const app = express();
 
-// --- Middleware ---
+connectDB();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -19,17 +20,14 @@ app.use(
   })
 );
 
-// --- Routes ---
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api/admin", adminRoutes); // 🔥 BARU AKTIF KALAU IMPORT ADA
 
-// --- Health check ---
 app.get("/", (req, res) => {
   res.send("API SongRATE Running...");
 });
 
-// --- 404 ---
 app.use((req, res) => {
   res.status(404).json({ error: "Route not found" });
 });
