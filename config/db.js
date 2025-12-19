@@ -17,9 +17,6 @@ const connectDB = async () => {
   try {
     await sequelize.authenticate();
     console.log('✅ Connected to Railway PostgreSQL');
-    
-    // Sync model di sini
-    await sequelize.sync({ alter: true });  // sync semua model (alter: true untuk update tabel)
     console.log('✅ Models synced to Railway');
   } catch (err) {
     console.error('❌ Database connection error:', err.message);
