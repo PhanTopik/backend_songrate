@@ -5,7 +5,7 @@ const { connectDB } = require("./config/db");
 // Routes
 const reviewRoutes = require("./routes/reviews");
 const authRoutes = require("./routes/auth");
-const adminRoutes = require("./routes/admin"); // aktifkan kalau ada
+// const adminRoutes = require("./routes/admin"); // aktifkan kalau ada
 
 const app = express();
 
@@ -26,7 +26,7 @@ app.use(
 // --- Routes ---
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/admin", adminRoutes);
+// app.use("/api/admin", adminRoutes);
 
 // --- Health check ---
 app.get("/", (req, res) => {
