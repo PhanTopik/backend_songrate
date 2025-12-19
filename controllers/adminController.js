@@ -22,7 +22,7 @@ exports.deleteSong = async (req, res) => {
 };
 
 // 👀 lihat semua user
-exports.getAllusers = async (req, res) => {
+exports.getAllUsers = async (req, res) => {
   try {
     const users = await user.findAll({
       attributes: ["id", "username", "email", "role"],
