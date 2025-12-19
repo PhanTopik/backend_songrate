@@ -5,9 +5,9 @@ const { connectDB } = require("./config/db");
 const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
-  await connectDB(); // HANYA DI SINI
+  await connectDB(); // ✅ CUKUP SEKALI
   app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`🚀 Server started on port ${PORT}`);
   });
 };
 
