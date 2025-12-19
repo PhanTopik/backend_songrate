@@ -57,15 +57,14 @@ const login = async (req, res) => {
 
     // Buat Token (DITAMBAH ROLE)
     const token = jwt.sign(
-      { 
-        id: user.id, 
-        email: user.email,
-        role: user.role
-      },
-      JWT_SECRET,
-      { expiresIn: '1h' }
-    );
-
+  {
+    id: user.id,
+    email: user.email,
+    role: user.role, // WAJIB
+  },
+  process.env.JWT_SECRET,
+  { expiresIn: "1h" }
+);
     // Response (DITAMBAH ROLE)
     res.json({ 
       message: 'Login successful', 
