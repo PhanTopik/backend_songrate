@@ -21,7 +21,7 @@ const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Buat user baru
-    const newUser = await User.create({
+    const newUser = await user.create({
       id: uuidv4(),
       username,
       email,
@@ -44,7 +44,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     // Cari user
-    const user = await User.findOne({ where: { email } });
+    const user = await user.findOne({ where: { email } });
     if (!user) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
