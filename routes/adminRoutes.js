@@ -10,6 +10,10 @@ router.put("/songs/:id", authMiddleware, isAdmin, adminController.updateSong);
 router.delete("/songs/:id", authMiddleware, isAdmin, adminController.deleteSong);
 
 // User
-router.get("/users", authMiddleware, isAdmin, adminController.getAllUsers);
+router.get("/users", (req, res, next) => {
+  console.log("🔥 ADMIN USERS ROUTE HIT");
+  next();
+}, authMiddleware, isAdmin, adminController.getAllUsers);
+
 
 module.exports = router;
