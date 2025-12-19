@@ -22,11 +22,12 @@ app.use(
   })
 );
 
-app.options(/(.*)/, cors());
+app.options("*", cors());
 
 // --- Routes ---
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
 
 // --- Health check / default route ---
 app.get("/", (req, res) => {
