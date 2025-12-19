@@ -1,6 +1,7 @@
 # 🔧 Install Git + Push Changes
 
 ## Step 1: Download Git
+
 Download dari: https://git-scm.com/download/win
 
 Pilih versi terbaru (64-bit recommended untuk Windows)
@@ -8,6 +9,7 @@ Pilih versi terbaru (64-bit recommended untuk Windows)
 ---
 
 ## Step 2: Install Git
+
 1. Run installer
 2. **Keep defaults** (jangan di-customize)
 3. Finish installation
@@ -16,6 +18,7 @@ Pilih versi terbaru (64-bit recommended untuk Windows)
 ---
 
 ## Step 3: Configure Git (First time only)
+
 ```powershell
 git config --global user.name "Your Name"
 git config --global user.email "youremail@example.com"
@@ -24,6 +27,7 @@ git config --global user.email "youremail@example.com"
 ---
 
 ## Step 4: Verify Git Installed
+
 ```powershell
 git --version
 ```
@@ -33,6 +37,7 @@ Should show: `git version 2.x.x.windows.x`
 ---
 
 ## Step 5: Push Changes to Railway
+
 ```powershell
 cd D:\backend_songrate
 
@@ -54,6 +59,7 @@ git push origin master
 ---
 
 ## Step 6: Verify in Railway
+
 1. Go to https://railway.app/
 2. Select project: backendsongrate-production
 3. Check **Deployments** tab
@@ -63,6 +69,7 @@ git push origin master
 ---
 
 ## Step 7: Test Login
+
 1. Refresh browser (Ctrl+F5)
 2. Try login dari localhost:5175
 3. CORS error should be gone! ✅

@@ -1,10 +1,12 @@
 # ⚡ QUICK ACTION STEPS
 
 ## 🔴 Current Issue
+
 - Backend di Railway tidak recognize `localhost:5175` di CORS
 - Frontend tidak bisa login
 
 ## ✅ Fix Applied Locally
+
 Updated `app.js` dengan CORS yang lebih permissive
 
 ---
@@ -12,6 +14,7 @@ Updated `app.js` dengan CORS yang lebih permissive
 ## 📤 PUSH TO RAILWAY (Choose 1 method)
 
 ### METHOD 1: GitHub Web (EASIEST - 2 minutes)
+
 ```
 1. Open GitHub: https://github.com/PhanTopik/backend_songrate
 2. Click "app.js" file
@@ -28,11 +31,11 @@ app.use(
         "http://localhost:3001",
         "https://songrate.vercel.app"
       ];
-      
+
       if (!origin || origin.includes("localhost") || origin.includes("127.0.0.1")) {
         return callback(null, true);
       }
-      
+
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -52,6 +55,7 @@ app.use(
 ---
 
 ### METHOD 2: Manual Redeploy
+
 ```
 1. Open: https://railway.app/
 2. Login & select project "backendsongrate-production"
@@ -74,11 +78,12 @@ app.use(
 ## 🔍 Test Current Status
 
 Open browser console and run:
+
 ```javascript
-fetch('https://backendsongrate-production.up.railway.app/')
-  .then(r => r.text())
-  .then(d => console.log("✅ Backend OK:", d))
-  .catch(e => console.log("❌ Backend Error:", e))
+fetch("https://backendsongrate-production.up.railway.app/")
+  .then((r) => r.text())
+  .then((d) => console.log("✅ Backend OK:", d))
+  .catch((e) => console.log("❌ Backend Error:", e));
 ```
 
 ---

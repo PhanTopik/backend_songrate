@@ -1,6 +1,7 @@
 # 🚀 CORS Error Fix - Deployment Guide
 
 ## 🔴 Problem
+
 ```
 CORS error: Access to fetch at 'https://backendsongrate-production.up.railway.app/api/auth/login'
 from origin 'http://localhost:5175' has been blocked
@@ -14,13 +15,13 @@ Updated `app.js` to include ALL localhost ports in CORS origin whitelist:
 cors({
   origin: [
     "http://localhost:5173",
-    "http://localhost:5175",    // ← ADDED (your dev port)
+    "http://localhost:5175", // ← ADDED (your dev port)
     "http://localhost:3000",
     "http://localhost:3001",
-    "https://songrate.vercel.app"
+    "https://songrate.vercel.app",
   ],
   credentials: true,
-})
+});
 ```
 
 ---
@@ -28,6 +29,7 @@ cors({
 ## 📤 Deploy Changes to Railway
 
 ### Step 1: Commit Changes
+
 ```bash
 cd D:\backend_songrate
 git add app.js
@@ -35,6 +37,7 @@ git commit -m "fix: add localhost:5175 to CORS whitelist"
 ```
 
 ### Step 2: Push to Railway
+
 ```bash
 git push origin main
 # atau
@@ -48,6 +51,7 @@ Railway akan auto-deploy dalam 1-2 menit.
 ## ✅ Verify Fix
 
 Setelah deployment:
+
 1. Tunggu Railway selesai deploy (check dashboard)
 2. Refresh browser frontend
 3. Try login lagi
@@ -70,29 +74,31 @@ Setelah deployment:
 ## 💡 Troubleshooting
 
 ### Still getting CORS error?
+
 1. Check Railway deployment status (should be ✅)
 2. Force browser refresh: `Ctrl+F5`
 3. Clear browser cache
 4. Wait 2-3 minutes for full propagation
 
 ### Check CORS is working:
+
 ```javascript
 // Open browser console and test:
-fetch('https://backendsongrate-production.up.railway.app/', {
-  mode: 'cors',
-  credentials: 'include'
+fetch("https://backendsongrate-production.up.railway.app/", {
+  mode: "cors",
+  credentials: "include",
 })
-.then(res => res.text())
-.then(data => console.log("✅ CORS OK:", data))
-.catch(err => console.log("❌ CORS Error:", err))
+  .then((res) => res.text())
+  .then((data) => console.log("✅ CORS OK:", data))
+  .catch((err) => console.log("❌ CORS Error:", err));
 ```
 
 ---
 
 ## 📝 Changes Made
 
-| File | Change | Status |
-|------|--------|--------|
+| File     | Change                       | Status  |
+| -------- | ---------------------------- | ------- |
 | `app.js` | Added localhost:5175 to CORS | ✅ Done |
 
 ---
@@ -100,6 +106,7 @@ fetch('https://backendsongrate-production.up.railway.app/', {
 ## 🔐 Frontend Config
 
 Make sure your frontend is using correct backend URL:
+
 ```javascript
 // In authHelper.js or similar
 const API_BASE = "https://backendsongrate-production.up.railway.app/api";

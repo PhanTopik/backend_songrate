@@ -1,12 +1,14 @@
 # ⚡ SOLUSI CEPAT - CORS Error Fix
 
 ## 🔴 Problem
+
 ```
 CORS error: Access to fetch blocked
 No 'Access-Control-Allow-Origin' header
 ```
 
 ## ✅ Status
+
 - ✅ `app.js` sudah di-update dengan CORS yang benar
 - ⏳ Perlu push ke GitHub → Railway deploy otomatis
 
@@ -17,19 +19,23 @@ No 'Access-Control-Allow-Origin' header
 ### **CARA 1: Install Git (PALING MUDAH)**
 
 1. **Download Git:**
+
    - Buka: https://git-scm.com/download/win
    - Click download
 
 2. **Install Git:**
+
    - Run installer
    - Keep default settings
    - Finish
 
 3. **Restart PowerShell:**
+
    - Tutup PowerShell
    - Buka lagi
 
 4. **Push Changes:**
+
    ```powershell
    cd D:\backend_songrate
    git add app.js
@@ -37,7 +43,7 @@ No 'Access-Control-Allow-Origin' header
    git push origin main
    ```
 
-5. **Done!** 
+5. **Done!**
    - Railway akan auto-deploy dalam 1-2 menit
    - Cek https://railway.app/
 

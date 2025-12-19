@@ -48,6 +48,7 @@ D:\
 ## 🚀 Quick Start
 
 ### 1. Backend Setup
+
 ```bash
 cd D:\backend_songrate
 npm install
@@ -56,6 +57,7 @@ npm start
 ```
 
 ### 2. Frontend Setup
+
 ```bash
 cd D:\frontend_songrate
 npm install
@@ -72,9 +74,10 @@ npm run dev
 ✅ Admin Role Check  
 ✅ Song CRUD Operations  
 ✅ User Management  
-✅ Database Integration (PostgreSQL via Sequelize)  
+✅ Database Integration (PostgreSQL via Sequelize)
 
 ### Key Endpoints
+
 - `POST /api/auth/signup` - Register user
 - `POST /api/auth/login` - Login user (returns redirectUrl)
 - `GET /api/admin/dashboard` - Admin dashboard
@@ -91,9 +94,10 @@ npm run dev
 ✅ React Router for navigation  
 ✅ Admin Dashboard component  
 ✅ Responsive design  
-✅ Modern UI with gradient styling  
+✅ Modern UI with gradient styling
 
 ### Key Routes
+
 - `/` - Redirect to admin
 - `/admin` - Admin dashboard (manage songs & view users)
 
@@ -128,6 +132,7 @@ Frontend (http://localhost:5173)
 ## 📝 Environment Variables
 
 ### Backend (.env)
+
 ```
 JWT_SECRET=rahasia_super_aman_123
 DATABASE_URL=postgres://user:password@localhost:5432/songrate
@@ -135,6 +140,7 @@ PORT=5000
 ```
 
 ### Frontend (.env.local)
+
 ```
 VITE_API_BASE=http://localhost:5000/api
 ```
@@ -144,6 +150,7 @@ VITE_API_BASE=http://localhost:5000/api
 ## 📦 Dependencies
 
 ### Backend
+
 - express
 - sequelize
 - pg (PostgreSQL)
@@ -153,6 +160,7 @@ VITE_API_BASE=http://localhost:5000/api
 - dotenv
 
 ### Frontend
+
 - react
 - react-dom
 - react-router-dom
@@ -177,6 +185,7 @@ VITE_API_BASE=http://localhost:5000/api
 ## 🔧 Troubleshooting
 
 ### Backend won't start
+
 ```bash
 # Check port 5000 is not in use
 netstat -ano | findstr :5000
@@ -185,6 +194,7 @@ npm install
 ```
 
 ### Frontend won't load
+
 ```bash
 # Clear node_modules and reinstall
 rm -r node_modules
@@ -193,6 +203,7 @@ npm run dev
 ```
 
 ### API calls failing
+
 - Check backend is running
 - Verify CORS origin in backend
 - Check token in localStorage
