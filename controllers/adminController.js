@@ -1,5 +1,5 @@
 const Song = require("../models/Song");
-const User = require("../models/User");
+const user = require("../models/user");
 
 // ➕ tambah lagu
 exports.addSong = async (req, res) => {
@@ -22,9 +22,9 @@ exports.deleteSong = async (req, res) => {
 };
 
 // 👀 lihat semua user
-exports.getAllUsers = async (req, res) => {
+exports.getAllusers = async (req, res) => {
   try {
-    const users = await User.findAll({
+    const users = await user.findAll({
       attributes: ["id", "username", "email", "role"],
     });
     res.json(users);
