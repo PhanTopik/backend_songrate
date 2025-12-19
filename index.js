@@ -2,13 +2,20 @@ require("dotenv").config();
 const app = require("./app");
 const { connectDB } = require("./config/db");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
-  await connectDB(); // ✅ CUKUP SEKALI
-  app.listen(PORT, () => {
-    console.log(`🚀 Server started on port ${PORT}`);
-  });
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`🚀 Server started on port ${PORT}`);
+      console.log(`📡 API Base: http://localhost:${PORT}/api`);
+      console.log(`🌐 Frontend origin: http://localhost:5173`);
+    });
+  } catch (error) {
+    console.error("❌ Failed to start server:", error);
+    process.exit(1);
+  }
 };
 
 startServer();
