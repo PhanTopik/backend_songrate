@@ -5,6 +5,7 @@ const { connectDB } = require("./config/db");
 // Routes
 const reviewRoutes = require("./routes/reviews");
 const authRoutes = require("./routes/auth");
+const adminRoutes = require("./routes/admin"); // aktifkan kalau ada
 
 const app = express();
 
@@ -22,20 +23,18 @@ app.use(
   })
 );
 
-app.options("*", cors());
-
 // --- Routes ---
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 
-// --- Health check / default route ---
+// --- Health check ---
 app.get("/", (req, res) => {
   res.send("API SongRATE Running...");
 });
 
 // --- 404 Handler ---
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).json({ error: "Route not found" });
 });
 
