@@ -44,37 +44,38 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     // Cari user
-    const user = await user.findOne({ where: { email } });
-    if (!user) {
+    const foundUser = await user.findOne({ where: { email } });
+    if (!foundUser) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     // Cek password
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, foundUser.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     // Buat Token (DITAMBAH ROLE)
     const token = jwt.sign(
-  {
-    id: user.id,
-    email: user.email,
-    role: user.role, // WAJIB
-  },
-  process.env.JWT_SECRET,
-  { expiresIn: "1h" }
-);
+      {
+        id: foundUser.id,
+        email: foundUser.email,
+        role: foundUser.role
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
     // Response (DITAMBAH ROLE)
-    res.json({ 
-      message: 'Login successful', 
-      token, 
-      user: { 
-        id: user.id, 
-        username: user.username, 
-        email: user.email,
-        role: user.role
-      } 
+   res.json({
+      message: 'Login successful',
+      token,
+      user: {
+        id: foundUser.id,
+        username: foundUser.username,
+        email: foundUser.email,
+        role: foundUser.role
+      }
     });
   } catch (error) {
     console.error(error);
