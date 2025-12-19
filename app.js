@@ -1,10 +1,9 @@
 const express = require("express");
 const cors = require("cors");
-const { connectDB } = require("./config/db");
 
 const reviewRoutes = require("./routes/reviews");
 const authRoutes = require("./routes/auth");
-const adminRoutes = require("./routes/adminRoutes"); // 🔥 INI YANG HILANG
+const adminRoutes = require("./routes/adminRoutes");
 
 const app = express();
 
@@ -20,7 +19,7 @@ app.use(
 
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/admin", adminRoutes); // 🔥 BARU AKTIF KALAU IMPORT ADA
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("API SongRATE Running...");
