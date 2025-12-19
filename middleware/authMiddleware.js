@@ -1,25 +1,20 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const authMiddleware = (req, res, next) => {
-  const authHeader = req.header('Authorization');
-  
-  // Mengambil token dengan memisahkan kata 'Bearer' dan kodenya secara benar
-  const token = authHeader && authHeader.startsWith('Bearer ') 
-                ? authHeader.split(' ')[1] 
-                : null;
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
-    return res.status(401).json({ error: 'No token, authorization denied' });
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "No token provided" });
   }
 
+  const token = authHeader.split(" ")[1];
+
   try {
-    // Verifikasi menggunakan secret key yang konsisten
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'rahasia_super_aman_123');
-    req.user = decoded;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // { id, email, role }
     next();
   } catch (err) {
-    // Jika token expired atau secret key beda, ini akan terpanggil
-    res.status(401).json({ error: 'Token is not valid' });
+    return res.status(401).json({ error: "Invalid or expired token" });
   }
 };
 
