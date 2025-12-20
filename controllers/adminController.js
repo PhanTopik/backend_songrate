@@ -1,4 +1,5 @@
 const Song = require("../models/Song");
+const Artist = require("../models/Artist");
 const user = require("../models/user");
 
 // ➕ tambah lagu
@@ -37,6 +38,61 @@ exports.deleteSong = async (req, res) => {
     res
       .status(500)
       .json({ message: "Failed to delete song", error: err.message });
+  }
+};
+
+// ========== ARTIST MANAGEMENT ==========
+
+// ➕ tambah artis
+exports.addArtist = async (req, res) => {
+  try {
+    const artist = await Artist.create(req.body);
+    res.status(201).json({ message: "Artist added successfully", artist });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to add artist", error: err.message });
+  }
+};
+
+// ✏️ edit artis
+exports.updateArtist = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Artist.update(req.body, { where: { id } });
+    const artist = await Artist.findByPk(id);
+    res.json({ message: "Artist updated successfully", artist });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ message: "Failed to update artist", error: err.message });
+  }
+};
+
+// ❌ hapus artis
+exports.deleteArtist = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Artist.destroy({ where: { id } });
+    res.json({ message: "Artist deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ message: "Failed to delete artist", error: err.message });
+  }
+};
+
+// 👀 lihat semua artis
+exports.getAllArtists = async (req, res) => {
+  try {
+    const artists = await Artist.findAll();
+    res.json({ message: "Artists retrieved successfully", artists });
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch artists", error: err.message });
   }
 };
 

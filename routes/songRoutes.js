@@ -10,7 +10,8 @@ router.get("/", async (req, res) => {
     const songs = await Song.findAll();
     res.json(songs);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("GET /api/songs error:", err);
+    res.status(500).json({ message: "Failed to fetch songs", error: err.message });
   }
 });
 
@@ -20,7 +21,8 @@ router.post("/", authMiddleware, isAdmin, async (req, res) => {
     const song = await Song.create(req.body);
     res.status(201).json(song);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("POST /api/songs error:", err);
+    res.status(500).json({ message: "Failed to create song", error: err.message });
   }
 });
 
@@ -28,9 +30,11 @@ router.post("/", authMiddleware, isAdmin, async (req, res) => {
 router.put("/:id", authMiddleware, isAdmin, async (req, res) => {
   try {
     await Song.update(req.body, { where: { id: req.params.id } });
-    res.json({ message: "Song updated" });
+    const updatedSong = await Song.findByPk(req.params.id);
+    res.json({ message: "Song updated", song: updatedSong });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("PUT /api/songs/:id error:", err);
+    res.status(500).json({ message: "Failed to update song", error: err.message });
   }
 });
 
@@ -40,7 +44,8 @@ router.delete("/:id", authMiddleware, isAdmin, async (req, res) => {
     await Song.destroy({ where: { id: req.params.id } });
     res.json({ message: "Song deleted" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("DELETE /api/songs/:id error:", err);
+    res.status(500).json({ message: "Failed to delete song", error: err.message });
   }
 });
 

@@ -30,4 +30,18 @@ router.delete(
   adminController.deleteSong
 );
 
+// ========== ARTIST ROUTES ==========
+
+// Get all artists
+router.get("/artists", authMiddleware, isAdmin, adminController.getAllArtists);
+
+// Add Artist
+router.post("/artists", authMiddleware, isAdmin, adminController.addArtist);
+
+// Update Artist
+router.put("/artists/:id", authMiddleware, isAdmin, adminController.updateArtist);
+
+// Delete Artist
+router.delete("/artists/:id", authMiddleware, isAdmin, adminController.deleteArtist);
+
 module.exports = router;
