@@ -6,6 +6,7 @@ const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/adminRoutes");
 const songRoutes = require("./routes/songRoutes");
 const userRoutes = require("./routes/userRoutes");
+const newsRoutes = require("./routes/newsRoutes");
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/songs", songRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/news", newsRoutes);
 
 app.get("/", (req, res) => {
   res.send("API SongRATE Running...");
