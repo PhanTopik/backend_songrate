@@ -1,6 +1,8 @@
 const Song = require("../models/Song");
 const Artist = require("../models/Artist");
 const user = require("../models/user");
+const { News } = require("../models");
+
 
 // ➕ tambah lagu
 exports.addSong = async (req, res) => {
@@ -55,6 +57,49 @@ exports.addArtist = async (req, res) => {
       .json({ message: "Failed to add artist", error: err.message });
   }
 };
+
+exports.getAllNews = async (req, res) => {
+  try {
+    const news = await News.findAll({ order: [["createdAt", "DESC"]] });
+    res.json(news);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.addNews = async (req, res) => {
+  try {
+    const news = await News.create(req.body);
+    res.status(201).json(news);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+exports.updateNews = async (req, res) => {
+  try {
+    const news = await News.findByPk(req.params.id);
+    if (!news) return res.status(404).json({ message: "News not found" });
+
+    await news.update(req.body);
+    res.json(news);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+exports.deleteNews = async (req, res) => {
+  try {
+    const news = await News.findByPk(req.params.id);
+    if (!news) return res.status(404).json({ message: "News not found" });
+
+    await news.destroy();
+    res.json({ message: "News deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 
 // ✏️ edit artis
 exports.updateArtist = async (req, res) => {

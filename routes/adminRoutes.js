@@ -30,6 +30,41 @@ router.delete(
   adminController.deleteSong
 );
 
+// ========== NEWS ROUTES ==========
+
+// Get all news (admin)
+router.get(
+  "/news",
+  authMiddleware,
+  isAdmin,
+  adminController.getAllNews
+);
+
+// Add news
+router.post(
+  "/news",
+  authMiddleware,
+  isAdmin,
+  adminController.addNews
+);
+
+// Update news
+router.put(
+  "/news/:id",
+  authMiddleware,
+  isAdmin,
+  adminController.updateNews
+);
+
+// Delete news
+router.delete(
+  "/news/:id",
+  authMiddleware,
+  isAdmin,
+  adminController.deleteNews
+);
+
+
 // ========== ARTIST ROUTES ==========
 
 // Get all artists
