@@ -9,8 +9,8 @@ const {
   deleteNews,
 } = require("../controllers/newsController");
 
-const authMiddleware = require("../middlewares/authMiddleware");
-const isAdmin = require("../middlewares/isAdmin");
+const authMiddleware = require("../middleware/authMiddleware");
+const isAdmin = require("../middleware/isAdmin");
 
 // ==================
 // PUBLIC ROUTES
