@@ -11,7 +11,9 @@ router.get("/", async (req, res) => {
     res.json(songs);
   } catch (err) {
     console.error("GET /api/songs error:", err);
-    res.status(500).json({ message: "Failed to fetch songs", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Failed to fetch songs", error: err.message });
   }
 });
 
@@ -22,7 +24,9 @@ router.post("/", authMiddleware, isAdmin, async (req, res) => {
     res.status(201).json(song);
   } catch (err) {
     console.error("POST /api/songs error:", err);
-    res.status(500).json({ message: "Failed to create song", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Failed to create song", error: err.message });
   }
 });
 
@@ -34,7 +38,9 @@ router.put("/:id", authMiddleware, isAdmin, async (req, res) => {
     res.json({ message: "Song updated", song: updatedSong });
   } catch (err) {
     console.error("PUT /api/songs/:id error:", err);
-    res.status(500).json({ message: "Failed to update song", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Failed to update song", error: err.message });
   }
 });
 
@@ -45,7 +51,9 @@ router.delete("/:id", authMiddleware, isAdmin, async (req, res) => {
     res.json({ message: "Song deleted" });
   } catch (err) {
     console.error("DELETE /api/songs/:id error:", err);
-    res.status(500).json({ message: "Failed to delete song", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Failed to delete song", error: err.message });
   }
 });
 

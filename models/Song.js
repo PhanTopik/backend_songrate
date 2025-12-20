@@ -12,18 +12,19 @@ const Song = sequelize.define(
     title: { type: DataTypes.STRING, allowNull: false },
     artist: { type: DataTypes.STRING, allowNull: false },
     genre: DataTypes.STRING,
-    type: DataTypes.STRING, // album | single | ep
-    releaseDate: DataTypes.STRING, // human-friendly date (e.g. "April 19, 2024")
+    type: DataTypes.STRING,
+    releaseDate: DataTypes.STRING,
     releaseYear: DataTypes.INTEGER,
     tracks: DataTypes.INTEGER,
     duration: DataTypes.STRING,
     image: DataTypes.TEXT,
     description: DataTypes.TEXT,
     highlight: { type: DataTypes.BOOLEAN, defaultValue: false },
-    status: DataTypes.STRING, // e.g. "confirmed", "rumored", "highlyAnticipated"
+    status: DataTypes.STRING,
   },
   {
     tableName: "Songs",
+    timestamps: true,   // ⬅️ INI WAJIB
   }
 );
 

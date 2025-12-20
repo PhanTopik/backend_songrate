@@ -50,7 +50,9 @@ exports.addArtist = async (req, res) => {
     res.status(201).json({ message: "Artist added successfully", artist });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Failed to add artist", error: err.message });
+    res
+      .status(500)
+      .json({ message: "Failed to add artist", error: err.message });
   }
 };
 
