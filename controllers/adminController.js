@@ -1,7 +1,7 @@
 const Song = require("../models/Song");
 const Artist = require("../models/Artist");
 const user = require("../models/user");
-const { News } = require("../models");
+const News = require("../models/News");
 
 
 // ➕ tambah lagu
