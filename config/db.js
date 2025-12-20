@@ -18,11 +18,12 @@ const connectDB = async () => {
     await sequelize.authenticate();
     console.log("✅ Connected to Railway PostgreSQL");
 
-    // Import models AFTER sequelize is initialized
+    // Import models
     require("../models/user");
     require("../models/Song");
     require("../models/Artist");
     require("../models/comment");
+    require("../models/News"); // ⬅️ INI KUNCINYA
 
     // Sync all models with database
     await sequelize.sync({ alter: true });
