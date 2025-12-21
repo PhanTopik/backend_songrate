@@ -1,82 +1,69 @@
 const express = require("express");
 const router = express.Router();
-const adminController = require("../controllers/adminController");
+const News = require("../models/News");
+const Song = require("../models/Song");
 
 const authMiddleware = require("../middleware/authMiddleware");
 const isAdmin = require("../middleware/isAdmin");
 
-// Dashboard Admin
-router.get("/dashboard", authMiddleware, isAdmin, (req, res) => {
-  res.json({
-    message: "Welcome to Admin Dashboard",
-    user: req.user,
-  });
+/* ======================
+   SONGS (SUDAH OK)
+====================== */
+
+// GET all songs
+router.get("/songs", authMiddleware, isAdmin, async (req, res) => {
+  const songs = await Song.findAll();
+  res.json(songs);
 });
 
-// Get semua users
-router.get("/users", authMiddleware, isAdmin, adminController.getAllUsers);
+// ADD song
+router.post("/songs", authMiddleware, isAdmin, async (req, res) => {
+  const song = await Song.create(req.body);
+  res.status(201).json(song);
+});
 
-// Add Song
-router.post("/songs", authMiddleware, isAdmin, adminController.addSong);
+// UPDATE song
+router.put("/songs/:id", authMiddleware, isAdmin, async (req, res) => {
+  await Song.update(req.body, { where: { id: req.params.id } });
+  const updated = await Song.findByPk(req.params.id);
+  res.json(updated);
+});
 
-// Update Song
-router.put("/songs/:id", authMiddleware, isAdmin, adminController.updateSong);
+// DELETE song
+router.delete("/songs/:id", authMiddleware, isAdmin, async (req, res) => {
+  await Song.destroy({ where: { id: req.params.id } });
+  res.json({ message: "Song deleted" });
+});
 
-// Delete Song
-router.delete(
-  "/songs/:id",
-  authMiddleware,
-  isAdmin,
-  adminController.deleteSong
-);
+/* ======================
+   NEWS (FINAL & BENAR)
+====================== */
 
-// ========== NEWS ROUTES ==========
+// 🔹 GET all news
+router.get("/news", authMiddleware, isAdmin, async (req, res) => {
+  const news = await News.findAll({
+    order: [["createdAt", "DESC"]],
+  });
+  res.json(news);
+});
 
-// Get all news (admin)
-router.get(
-  "/news",
-  authMiddleware,
-  isAdmin,
-  adminController.getAllNews
-);
+// 🔹 ADD news
+router.post("/news", authMiddleware, isAdmin, async (req, res) => {
+  const news = await News.create(req.body);
+  res.status(201).json(news);
+});
 
-// Add news
-router.post(
-  "/news",
-  authMiddleware,
-  isAdmin,
-  adminController.addNews
-);
+// 🔹 UPDATE news
+router.put("/news/:id", authMiddleware, isAdmin, async (req, res) => {
+  await News.update(req.body, { where: { id: req.params.id } });
+  const updatedNews = await News.findByPk(req.params.id);
+  res.json(updatedNews);
+});
 
-// Update news
-router.put(
-  "/news/:id",
-  authMiddleware,
-  isAdmin,
-  adminController.updateNews
-);
-
-// Delete news
-router.delete(
-  "/news/:id",
-  authMiddleware,
-  isAdmin,
-  adminController.deleteNews
-);
-
-
-// ========== ARTIST ROUTES ==========
-
-// Get all artists
-router.get("/artists", authMiddleware, isAdmin, adminController.getAllArtists);
-
-// Add Artist
-router.post("/artists", authMiddleware, isAdmin, adminController.addArtist);
-
-// Update Artist
-router.put("/artists/:id", authMiddleware, isAdmin, adminController.updateArtist);
-
-// Delete Artist
-router.delete("/artists/:id", authMiddleware, isAdmin, adminController.deleteArtist);
+// 🔹 DELETE news
+router.delete("/news/:id", authMiddleware, isAdmin, async (req, res) => {
+  await News.destroy({ where: { id: req.params.id } });
+  res.json({ message: "News deleted" });
+});
 
 module.exports = router;

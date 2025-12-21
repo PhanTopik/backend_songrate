@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user");
+const user = require("../models/user");
 const authMiddleware = require("../middleware/authMiddleware");
 const isAdmin = require("../middleware/isAdmin");
 
 // 🔹 GET semua user (ADMIN)
 router.get("/", authMiddleware, isAdmin, async (req, res) => {
   try {
-    const users = await User.findAll({
+    const users = await user.findAll({
       attributes: ["id", "email", "username", "role", "created_at"],
     });
     res.json(users);

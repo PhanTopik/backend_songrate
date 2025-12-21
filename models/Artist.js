@@ -18,6 +18,7 @@ const Artist = sequelize.define(
   },
   {
     tableName: "Artists",
+    timestamps: true,
   }
 );
 

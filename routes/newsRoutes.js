@@ -1,28 +1,36 @@
 const express = require("express");
 const router = express.Router();
+const News = require("../models/News");
 
-const {
-  createNews,
-  getAllNews,
-  getNewsBySlug,
-  updateNews,
-  deleteNews,
-} = require("../controllers/newsController");
+// 🔹 GET semua news (PUBLIC)
+router.get("/", async (req, res) => {
+  try {
+    const news = await News.findAll({
+      order: [["createdAt", "DESC"]],
+    });
+    res.json(news);
+  } catch (err) {
+    console.error("GET /api/news error:", err);
+    res.status(500).json({ message: "Failed to fetch news" });
+  }
+});
 
-const authMiddleware = require("../middleware/authMiddleware");
-const isAdmin = require("../middleware/isAdmin");
+// 🔹 GET news by slug (PUBLIC)
+router.get("/:slug", async (req, res) => {
+  try {
+    const news = await News.findOne({
+      where: { slug: req.params.slug },
+    });
 
-// ==================
-// PUBLIC ROUTES
-// ==================
-router.get("/", getAllNews);
-router.get("/:slug", getNewsBySlug);
+    if (!news) {
+      return res.status(404).json({ message: "News not found" });
+    }
 
-// ==================
-// ADMIN ROUTES
-// ==================
-router.post("/", authMiddleware, isAdmin, createNews);
-router.put("/:id", authMiddleware, isAdmin, updateNews);
-router.delete("/:id", authMiddleware, isAdmin, deleteNews);
+    res.json(news);
+  } catch (err) {
+    console.error("GET /api/news/:slug error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 module.exports = router;

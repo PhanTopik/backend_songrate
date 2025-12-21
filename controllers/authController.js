@@ -1,7 +1,6 @@
 const user = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { v4: uuidv4 } = require("uuid");
 
 // Ganti ini dengan string rahasia yang aman, sebaiknya taruh di .env
 const JWT_SECRET = process.env.JWT_SECRET || "rahasia_super_aman_123";
