@@ -19,9 +19,8 @@ const signup = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Buat user baru
+    // Buat user baru (id otomatis dari model dengan UUIDV4)
     const newuser = await user.create({
-      id: uuidv4(),
       username,
       email,
       password: hashedPassword,
