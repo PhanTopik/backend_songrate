@@ -20,13 +20,21 @@ app.use(
         "http://localhost:5173",
         "http://localhost:3000",
         "http://localhost:5174",
-        process.env.FRONTEND_URL || "https://localhost:5173",
-      ];
+        "https://songrate.vercel.app",
+        process.env.FRONTEND_URL,
+      ].filter(Boolean);
 
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      // Allow requests with no origin (like mobile apps, curl, Postman)
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      // Check if origin is in allowed list or is a vercel preview URL
+      if (allowedOrigins.includes(origin) || origin.includes("vercel.app")) {
         callback(null, true);
       } else {
-        callback(null, true); // Allow all for now
+        console.log("CORS blocked origin:", origin);
+        callback(null, true); // Still allow for now, but log it
       }
     },
     credentials: true,
