@@ -12,17 +12,22 @@ const getAllReviews = async (req, res) => {
 
 const addReview = async (req, res) => {
   try {
-    const { userId, title, artist, rating, message } = req.body;
+    // userId diambil dari token JWT (dari authMiddleware), bukan dari body
+    const userId = req.user?.id || req.user?.userId;
+    const { title, artist, rating, message } = req.body;
 
-    console.log("📥 Menerima Data Review:", req.body);
+    console.log("📥 Menerima Data Review:", { userId, title, artist, rating, message });
 
     // VALIDASI SEDERHANA DI CONTROLLER
-    if (!userId || !title || !artist || !rating || !message) {
+    if (!userId) {
+      return res.status(401).json({ error: "User tidak terautentikasi. Silakan login ulang." });
+    }
+
+    if (!title || !artist || !rating || !message) {
       return res.status(400).json({ error: "Semua field harus diisi!" });
     }
 
     // GABUNGKAN DATA UNTUK DIKIRIM KE SERVICE
-    // Kita bungkus semuanya jadi satu objek 'payload'
     const payload = {
       userId,
       title,
@@ -33,9 +38,9 @@ const addReview = async (req, res) => {
 
     const newReview = await commentsService.addReview(payload);
 
-    res.status(201).json({ 
-      message: "Review berhasil ditambahkan", 
-      data: newReview 
+    res.status(201).json({
+      message: "Review berhasil ditambahkan",
+      data: newReview
     });
   } catch (error) {
     console.error("❌ Error adding review:", error);

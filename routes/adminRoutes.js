@@ -224,16 +224,28 @@ router.delete("/news/:id", authMiddleware, isAdmin, async (req, res) => {
 // GET all ratings with stats
 router.get("/ratings", authMiddleware, isAdmin, async (req, res) => {
   try {
-    const ratings = await Comment.findAll({
-      include: [
-        {
-          model: User,
-          as: 'user',
-          attributes: ['id', 'username', 'email']
-        }
-      ],
-      order: [["createdAt", "DESC"]]
-    });
+    let ratings = [];
+
+    // Try with include first, fallback to without include
+    try {
+      ratings = await Comment.findAll({
+        include: [
+          {
+            model: User,
+            as: 'user',
+            attributes: ['id', 'username', 'email'],
+            required: false // LEFT JOIN - tidak fail jika user tidak ada
+          }
+        ],
+        order: [["created_at", "DESC"]]
+      });
+    } catch (includeErr) {
+      console.log("Could not fetch with user include, fetching without:", includeErr.message);
+      // Fallback: fetch without user relation
+      ratings = await Comment.findAll({
+        order: [["created_at", "DESC"]]
+      });
+    }
 
     // Calculate stats
     const totalRatings = ratings.length;
