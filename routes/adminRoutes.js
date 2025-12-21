@@ -3,6 +3,8 @@ const router = express.Router();
 const News = require("../models/News");
 const Song = require("../models/Song");
 const Artist = require("../models/Artist");
+const Comment = require("../models/comment");
+const User = require("../models/user");
 
 const authMiddleware = require("../middleware/authMiddleware");
 const isAdmin = require("../middleware/isAdmin");
@@ -212,6 +214,88 @@ router.delete("/news/:id", authMiddleware, isAdmin, async (req, res) => {
   } catch (err) {
     console.error("DELETE /api/admin/news/:id error:", err);
     res.status(500).json({ message: "Failed to delete news", error: err.message });
+  }
+});
+
+/* ======================
+   RATINGS (dari Comment model)
+====================== */
+
+// GET all ratings with stats
+router.get("/ratings", authMiddleware, isAdmin, async (req, res) => {
+  try {
+    const ratings = await Comment.findAll({
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'username', 'email']
+        }
+      ],
+      order: [["createdAt", "DESC"]]
+    });
+
+    // Calculate stats
+    const totalRatings = ratings.length;
+    const avgRating = totalRatings > 0
+      ? (ratings.reduce((sum, r) => sum + r.rating, 0) / totalRatings).toFixed(1)
+      : 0;
+
+    // Rating distribution
+    const distribution = {
+      1: ratings.filter(r => r.rating === 1).length,
+      2: ratings.filter(r => r.rating === 2).length,
+      3: ratings.filter(r => r.rating === 3).length,
+      4: ratings.filter(r => r.rating === 4).length,
+      5: ratings.filter(r => r.rating === 5).length,
+    };
+
+    // Top rated songs
+    const songRatings = {};
+    ratings.forEach(r => {
+      const key = `${r.title} - ${r.artist}`;
+      if (!songRatings[key]) {
+        songRatings[key] = { title: r.title, artist: r.artist, ratings: [], count: 0 };
+      }
+      songRatings[key].ratings.push(r.rating);
+      songRatings[key].count++;
+    });
+
+    const topRatedSongs = Object.values(songRatings)
+      .map(s => ({
+        ...s,
+        avgRating: (s.ratings.reduce((a, b) => a + b, 0) / s.count).toFixed(1)
+      }))
+      .sort((a, b) => b.avgRating - a.avgRating)
+      .slice(0, 10);
+
+    res.json({
+      ratings,
+      stats: {
+        totalRatings,
+        avgRating,
+        distribution,
+        topRatedSongs
+      }
+    });
+  } catch (err) {
+    console.error("GET /api/admin/ratings error:", err);
+    res.status(500).json({ message: "Failed to fetch ratings", error: err.message });
+  }
+});
+
+// DELETE rating
+router.delete("/ratings/:id", authMiddleware, isAdmin, async (req, res) => {
+  try {
+    const rating = await Comment.findByPk(req.params.id);
+    if (!rating) {
+      return res.status(404).json({ message: "Rating not found" });
+    }
+    await Comment.destroy({ where: { id: req.params.id } });
+    res.json({ message: "Rating deleted successfully" });
+  } catch (err) {
+    console.error("DELETE /api/admin/ratings/:id error:", err);
+    res.status(500).json({ message: "Failed to delete rating", error: err.message });
   }
 });
 
