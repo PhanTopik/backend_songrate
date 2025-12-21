@@ -25,6 +25,19 @@ const connectDB = async () => {
     require("../models/comment");
     require("../models/News"); // ⬅️ INI KUNCINYA
 
+    // Fix NULL timestamps before sync (untuk data lama)
+    try {
+      await sequelize.query(`
+        UPDATE "Users" 
+        SET created_at = NOW(), updated_at = NOW() 
+        WHERE created_at IS NULL OR updated_at IS NULL
+      `);
+      console.log("✅ Fixed NULL timestamps in Users table");
+    } catch (err) {
+      // Table might not exist yet, which is fine
+      console.log("ℹ️ Skipping timestamp fix (table may not exist yet)");
+    }
+
     // Sync all models with database
     await sequelize.sync({ alter: true });
     console.log("✅ Database models synced successfully");
