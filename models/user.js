@@ -26,7 +26,10 @@ const user = sequelize.define('user', {
   }
 }, {
   tableName: 'Users',
-  timestamps: false
+  timestamps: true,
+  underscored: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at'
 });
 
 module.exports = user; // ✅ SEKARANG BENAR

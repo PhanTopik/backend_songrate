@@ -8,7 +8,8 @@ const isAdmin = require("../middleware/isAdmin");
 router.get("/", authMiddleware, isAdmin, async (req, res) => {
   try {
     const users = await user.findAll({
-      attributes: ["id", "email", "username", "role", "created_at"],
+      attributes: ["id", "email", "username", "role", "created_at", "updated_at"],
+      order: [["created_at", "DESC"]],
     });
     res.json(users);
   } catch (err) {
